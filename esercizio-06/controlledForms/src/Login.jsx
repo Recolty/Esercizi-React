@@ -1,22 +1,20 @@
 import { useState } from "react";
 
 export function Login() {
-  const [form, setForm] = useState("");
+  const [form, setForm] = useState([]);
 
-  function handlingNameValue(event) {
+  function handleLogin(event) {
+    const name = event.target.name;
+    const type = event.target.type;
     const value = event.target.value;
-    setForm(value);
-  }
-
-  function handlingPasswordValue(event) {
-    const value = event.target.value;
-    setForm(value);
-  }
-
-  function checkedBox(event) {
     const checked = event.target.checked;
-    setForm(checked);
-
+    setForm(() => {
+      const newForm = {
+        ...form,
+        [name]: type === "checkbox" ? checked : value,
+      };
+      return newForm
+    });
   }
 
   console.log(form);
@@ -24,17 +22,9 @@ export function Login() {
   return (
     <form>
       <h2>Login</h2>
-      <input
-        type="text"
-        placeholder="username"
-        onChange={handlingNameValue}
-      ></input>
-      <input
-        type="text"
-        placeholder="password"
-        onChange={handlingPasswordValue}
-      ></input>
-      <input type="checkbox" id="remember" onChange={checkedBox}></input>
+      <input name= "username" type="text" placeholder="username" onChange={handleLogin}></input>
+      <input name= "password" type="text" placeholder="password" onChange={handleLogin}></input>
+      <input name= "remember" type="checkbox" id="remember" onChange={handleLogin}></input>
       <label htmlFor="remember">remember</label>
     </form>
   );
